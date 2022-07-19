@@ -22,9 +22,9 @@ def build_team_urls():
 def get_player_info(roster_url):
     f = urllib.request.urlopen(roster_url)
     roster_source = f.read().decode('utf-8')
-    sleep(0.5)
+    #sleep(0.5)
     #regex maybe broken?
-    player_regex = ('\{\"name\"\:\"(\w+\s\w+)\",\"href\"\:\"https?\://www\.espn\.com/nhl/player/.*?\",(.*?)\}')
+    player_regex = ('\{\"roster\"\:\"(\w+\s\w+)\",\"href\"\:\"https?\://www\.espn\.com/nhl/teams.*?\",(.*?)\}')
     player_info = re.findall(player_regex, roster_source)
     player_dict = dict()
     for player in player_info:
@@ -45,6 +45,8 @@ for team in all_players.keys():
     team_df['team'] = team
     all_players_df = pd.concat([all_players_df, team_df])
 all_players_df.to_csv("NHL_roster_info_all_players.csv")
+
+print(all_players["minnesota-wild"].keys())
 
 #Scrape career statistics
 print ("Now gathering career stats on all players (may take a while):")
